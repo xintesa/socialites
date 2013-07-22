@@ -45,6 +45,9 @@ class Strategy extends AbstractStrategy {
  * Generate endpoint URL
  */
 	protected function _endPoint($uri) {
+		if (defined('CROOGO_OAUTH_SERVER_URL')) {
+			return CROOGO_OAUTH_SERVER_URL . $uri;
+		}
 		return $this->_scheme . '://' . $this->_server . $uri;
 	}
 
