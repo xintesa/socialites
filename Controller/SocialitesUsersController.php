@@ -23,6 +23,11 @@ class SocialitesUsersController extends SocialitesAppController {
 		}
 
 		if (isset($this->request->pass[0]) && $this->request->pass[0] == 'callback') {
+			if (isset($this->request->query['error_description'])) {
+				$this->Session->setFlash(strip_tags($this->request->query['error_description']));
+				$this->redirect($this->Auth->loginAction);
+			}
+
 			$sessionKey = OpauthAuthenticate::$sessionKey;
 			if ($this->Session->check($sessionKey)) {
 				$socialiteAuth = $this->Session->read($sessionKey);
