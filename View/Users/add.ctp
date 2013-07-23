@@ -12,6 +12,8 @@ if (isset($this->data['User']['id'])):
 	echo $this->Form->input('id');
 endif;
 
+echo $this->Form->input('role_id', array('type' => 'hidden', 'default' => 2));
+
 echo $this->Form->input('username', array(
 	'label' => __d('socialites', 'Username'),
 	'default' => $defaults['username'],
