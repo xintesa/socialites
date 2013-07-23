@@ -19,6 +19,11 @@ if (file_exists($facebookPath)) {
 	Opauth\AutoLoader::register('Opauth\\Strategy', $facebookPath);
 }
 
+$googlePath = $path . 'Vendor/opauth/google/Opauth/Strategy';
+if (file_exists($googlePath)) {
+	Opauth\AutoLoader::register('Opauth\\Strategy', $googlePath);
+}
+
 Opauth\AutoLoader::register('Opauth\\Strategy', $path . 'Opauth/Strategy');
 
 Croogo::hookModelProperty('User', 'hasOne', array(
@@ -35,6 +40,10 @@ Configure::write('Opauth.Strategy', array(
 	'Facebook' => array(
 		'app_id' => '',
 		'app_secret' => '',
+	),
+	'Google' => array(
+		'client_id' => '',
+		'client_secret' => '',
 	),
 	'Croogo' => array(
 		'client_id' => '',

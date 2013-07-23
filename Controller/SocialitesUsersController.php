@@ -87,6 +87,23 @@ class SocialitesUsersController extends SocialitesAppController {
 		return $defaults;
 	}
 
+	protected function _getGoogleDefaults($data) {
+		$defaults = array(
+			'username' => Inflector::slug(strtolower($data['user']['name'])),
+			'email' => $data['user']['email'],
+			'name' => $data['user']['name'],
+			'website' => $data['user']['link'],
+			'image' => $data['user']['picture'],
+			'bio' => null,
+		);
+		$this->request->data = array(
+			'Socialite' => array(
+				'google_uid' => $data['user']['id'],
+			),
+		);
+		return $defaults;
+	}
+
 	protected function _setFormDefaults() {
 		$strategy = null;
 		$defaults = array(
