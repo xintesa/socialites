@@ -24,6 +24,7 @@ class FirstMigrationSocialites extends CakeMigration {
 					'twitter_uid' => array('type' => 'integer', 'null' => true, 'default' => null, 'after' => 'user_id'),
 					'fb_uid' => array('type' => 'integer', 'null' => true, 'default' => null, 'after' => 'twitter_uid'),
 					'google_uid' => array('type' => 'integer', 'null' => true, 'default' => null, 'after' => 'fb_uid'),
+					'github_uid' => array('type' => 'integer', 'null' => true, 'default' => null, 'after' => 'google_uid'),
 					'indexes' => array(
 						'PRIMARY' => array('column' => 'user_id', 'unique' => 1),
 					),

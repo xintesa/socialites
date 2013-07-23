@@ -24,6 +24,11 @@ if (file_exists($googlePath)) {
 	Opauth\AutoLoader::register('Opauth\\Strategy', $googlePath);
 }
 
+$githubPath = $path . 'Vendor/opauth/github/Opauth/Strategy';
+if (file_exists($githubPath)) {
+	Opauth\AutoLoader::register('Opauth\\Strategy', $githubPath);
+}
+
 Opauth\AutoLoader::register('Opauth\\Strategy', $path . 'Opauth/Strategy');
 
 Croogo::hookModelProperty('User', 'hasOne', array(
@@ -42,6 +47,10 @@ Configure::write('Opauth.Strategy', array(
 		'app_secret' => '',
 	),
 	'Google' => array(
+		'client_id' => '',
+		'client_secret' => '',
+	),
+	'GitHub' => array(
 		'client_id' => '',
 		'client_secret' => '',
 	),

@@ -104,6 +104,23 @@ class SocialitesUsersController extends SocialitesAppController {
 		return $defaults;
 	}
 
+	protected function _getGitHubDefaults($data) {
+		$defaults = array(
+			'username' => $data['user']['login'],
+			'email' => $data['user']['email'],
+			'name' => $data['user']['name'],
+			'website' => $data['user']['html_url'],
+			'image' => $data['user']['avatar_url'],
+			'bio' => $data['user']['bio'],
+		);
+		$this->request->data = array(
+			'Socialite' => array(
+				'github_uid' => $data['user']['id'],
+			),
+		);
+		return $defaults;
+	}
+
 	protected function _setFormDefaults() {
 		$strategy = null;
 		$defaults = array(
