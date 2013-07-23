@@ -5,7 +5,7 @@ Router::connect('/auth/:strategy/*', array(
 	'controller' => 'socialites_users',
 	'action' => 'login',
 ), array(
-	'strategy' => '(twitter)|(croogo)',
+	'strategy' => '(twitter)|(facebook)|(croogo)',
 ));
 
 Router::connect('/auth/:action/*', array(

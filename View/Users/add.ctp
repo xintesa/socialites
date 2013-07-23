@@ -36,6 +36,10 @@ if ($strategy == 'Twitter'):
 	echo $this->Form->input('Socialite.twitter_uid', array('type' => 'hidden'));
 endif;
 
+if ($strategy == 'Facebook'):
+	echo $this->Form->input('Socialite.fb_uid', array('type' => 'hidden'));
+endif;
+
 if ($strategy == 'Croogo'):
 	echo $this->Form->input('Socialite.user_id', array('type' => 'hidden'));
 endif;

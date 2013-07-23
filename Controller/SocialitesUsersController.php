@@ -71,6 +71,22 @@ class SocialitesUsersController extends SocialitesAppController {
 		return $defaults;
 	}
 
+	protected function _getFacebookDefaults($data) {
+		$website = current(explode("\n", $data['user']['website']));
+		$defaults = array(
+			'username' => $data['user']['username'],
+			'name' => $data['user']['name'],
+			'website' => $website,
+			'bio' => null,
+		);
+		$this->request->data = array(
+			'Socialite' => array(
+				'fb_uid' => $data['user']['id'],
+			),
+		);
+		return $defaults;
+	}
+
 	protected function _setFormDefaults() {
 		$strategy = null;
 		$defaults = array(
