@@ -34,26 +34,6 @@ echo $this->Form->input('bio', array(
 	'default' => $defaults['bio'],
 ));
 
-if ($strategy == 'Twitter'):
-	echo $this->Form->input('Socialite.twitter_uid', array('type' => 'hidden'));
-endif;
-
-if ($strategy == 'Facebook'):
-	echo $this->Form->input('Socialite.fb_uid', array('type' => 'hidden'));
-endif;
-
-if ($strategy == 'GitHub'):
-	echo $this->Form->input('Socialite.github_uid', array('type' => 'hidden'));
-endif;
-
-if ($strategy == 'Google'):
-	echo $this->Form->input('Socialite.google_uid', array('type' => 'hidden'));
-endif;
-
-if ($strategy == 'Croogo'):
-	echo $this->Form->input('Socialite.user_id', array('type' => 'hidden'));
-endif;
-
 echo $this->Form->submit(__d('socialite', 'Create User'));
 
 echo $this->Form->end();

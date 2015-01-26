@@ -1,8 +1,8 @@
 {
 	"name": "rchavik/socialite",
-	"description": "Croogo Opauth Integration",
+	"description": "Socialites plugin",
 	"type": "cakephp-plugin",
-	"keywords": ["cakephp", "opauth", "authentication", "auth", "oauth"],
+	"keywords": ["cakephp", "oauth2", "croogo"],
 	"homepage": "http://github.com/xintesa/socialite",
 	"license": "MIT",
 	"authors": [
@@ -13,19 +13,9 @@
 	],
 	"require": {
 		"php": ">=5.3.0",
-		"composer/installers": "1.*",
-		"opauth/opauth": "dev-wip/1.0"
-	},
-	"suggest": {
-		"opauth/twitter": "Twitter Integration",
-		"opauth/facebook": "Facebook Integration",
-		"opauth/google": "Google Integration",
-		"opauth/github": "GitHub Integration"
+		"composer/installers": "~1.0"
 	},
 	"config": {
 		"vendor-dir": "Vendor"
-	},
-	"extra": {
-	    "installer-name": "Opauth"
-    }
+	}
 }
