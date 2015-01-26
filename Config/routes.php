@@ -1,14 +1,11 @@
 <?php
 
-Router::connect('/auth/:strategy/*', array(
+Router::connect('/auth/:action/:provider/*', array(
 	'plugin' => 'socialites',
-	'controller' => 'socialites_users',
-	'action' => 'login',
-), array(
-	'strategy' => '(twitter)|(facebook)|(google)|(github)|(croogo)',
+	'controller' => 'authentication',
 ));
 
 Router::connect('/auth/:action/*', array(
 	'plugin' => 'socialites',
-	'controller' => 'socialites_users',
+	'controller' => 'authentication',
 ));
