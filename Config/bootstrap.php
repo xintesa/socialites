@@ -17,3 +17,8 @@ Croogo::hookModelProperty('User', 'hasOne', array(
 	),
 ));
 
+if (file_exists($path . 'Config' . DS . 'providers.php')) {
+	Configure::load('Socialites.providers');
+} else {
+	CakeLog::critical('Socialites provider config not found');
+}
