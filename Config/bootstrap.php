@@ -34,6 +34,7 @@ Opauth\AutoLoader::register('Opauth\\Strategy', $path . 'Opauth/Strategy');
 Croogo::hookModelProperty('User', 'hasOne', array(
 	'Socialite' => array(
 		'className' => 'Socialites.Socialite',
+		'dependent' => true,
 	),
 ));
 
