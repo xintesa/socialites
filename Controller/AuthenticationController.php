@@ -33,4 +33,10 @@ class AuthenticationController extends AppController {
 		}
 	}
 
+	public function login() {
+		$this->autoRender = false;
+		$eventName = 'Socialites.oauthAuthorize';
+		$event = Croogo::dispatchEvent($eventName, $this);
+	}
+
 }
