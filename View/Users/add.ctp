@@ -34,6 +34,8 @@ echo $this->Form->input('bio', array(
 	'default' => $defaults['bio'],
 ));
 
+echo $this->Socialites->providerUid();
+
 echo $this->Form->submit(__d('socialite', 'Create User'));
 
 echo $this->Form->end();

@@ -6,6 +6,8 @@ class SocialitesHelper extends AppHelper {
 
 	public $helpers = array(
 		'Html',
+		'Form',
+		'Session',
 	);
 
 	protected function _getProvider($provider) {
@@ -44,6 +46,12 @@ class SocialitesHelper extends AppHelper {
 			break;
 		}
 		return null;
+	}
+
+	public function providerUid() {
+		$provider = $this->Session->read('Socialites.newUser.provider');
+		$field = 'Socialite.' . $provider . '_uid';
+		return $this->Form->input($field, array('type' => 'hidden'));
 	}
 
 }
