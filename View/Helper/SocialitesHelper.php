@@ -48,6 +48,28 @@ class SocialitesHelper extends AppHelper {
 		return null;
 	}
 
+/**
+ * Helper to create links for logged in users
+ */
+	public function linkTo($title = null, $options = array()) {
+		$options = Hash::merge(array(
+			'provider' => null,
+		), $options);
+		$provider = $options['provider'];
+		unset($options['provider']);
+
+		$title = $title ? $title: ucfirst($provider);
+
+		$url = array(
+			'plugin' => 'socialites',
+			'controller' => 'socialites_users',
+			'action' => 'associate',
+			'provider' => $provider
+		);
+
+		return $this->Html->link($title, $url, $options);
+	}
+
 	public function providerUid() {
 		$provider = $this->Session->read('Socialites.newUser.provider');
 		$field = 'Socialite.' . $provider . '_uid';
