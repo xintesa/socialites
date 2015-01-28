@@ -1,6 +1,6 @@
 <?php
 
-$eventHandlers = array();
+$eventHandlers[] = 'Socialites.SocialitesSessionEventHandler';
 
 $eventHandlers[] = 'Socialites.SocialitesFacebookEventHandler';
 $eventHandlers[] = 'Socialites.SocialitesTwitterEventHandler';
