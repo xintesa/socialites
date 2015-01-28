@@ -62,13 +62,25 @@ class SocialitesBaseEventHandler extends Object {
 		return $this->_providerId === $event->subject->request->param('provider');
 	}
 
+	protected function _getExistingUser() {
+		return CakeSession::read('Socialites.originalUser');
+	}
+
 	protected function _transformDefaults($oauthUser, $defaults) {
 		return $defaults;
 	}
 
 	protected function _getDefaults($oauthUser) {
 		$fieldName = $this->_providerId . '_uid';
-		if ($fieldName) {
+		$originalUser = $this->_getExistingUser();
+		if ($originalUser) {
+			$defaults = array(
+				'User' => $originalUser,
+				'Socialite' => array(
+					$fieldName => $oauthUser->uid,
+				),
+			);
+		} else {
 			$website = $oauthUser->urls;
 			$website = is_array($website) ? current($website) : null;
 			$defaults = array(
