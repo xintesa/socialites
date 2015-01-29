@@ -102,14 +102,6 @@ class SocialitesTwitterEventHandler extends SocialitesBaseEventHandler
 		$server->authorize($tempCredentials);
 	}
 
-	protected function _findLocalUser($oauthUser) {
-		$Socialite = ClassRegistry::init('Socialites.Socialite');
-		$Socialite->recursive = -1;
-		$Socialite->contain('User');
-		$user = $Socialite->findByTwitterUid($oauthUser->uid);
-		return $user;
-	}
-
 	protected function _transformDefaults($oauthUser, $defaults) {
 		$website = Hash::extract($oauthUser->extra, 'entities.url.urls.{n}.expanded_url');
 		if (!empty($website[0])) {

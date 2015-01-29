@@ -53,15 +53,4 @@ class SocialitesFacebookEventHandler extends SocialitesBaseEventHandler
 		return compact('token', 'oauthUser', 'user');
 	}
 
-	protected function _findLocalUser($oauthUser) {
-		return $this->_Socialite->findByFacebookUid($oauthUser->uid);
-	}
-
-	protected function _findUsersByEmail($oauthUser) {
-		if (empty($oauthUser->email)) {
-			return null;
-		}
-		return $this->_Socialite->User->findByEmail($oauthUser->email);
-	}
-
 }

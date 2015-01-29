@@ -61,34 +61,4 @@ class SocialitesCroogoEventHandler extends SocialitesBaseEventHandler
 		return compact('token', 'oauthUser', 'user');
 	}
 
-	protected function _findLocalUser($oauthUser) {
-		$fieldName = $this->_providerId . '_uid';
-		return $this->_Socialite->find('first', array(
-			'conditions' => array(
-				$fieldName => $oauthUser->uid,
-			)
-		));
-	}
-
-	protected function _findUsersByEmail($oauthUser) {
-		$User = $this->_Socialite->User;
-		$fieldName = $User->escapeField('email');
-		$options = array(
-			'fields' => array('User.*', 'Socialite.*'),
-			'joins' => array(
-				array(
-					'type' => 'left',
-					'table' => $User->useTable,
-					'alias' => $User->alias,
-					'conditions' =>
-						'Socialite.user_id = ' . $User->escapeField(),
-				),
-			),
-			'conditions' => array(
-				$fieldName => $oauthUser->email,
-			)
-		);
-		return $this->_Socialite->find('all', $options);
-	}
-
 }

@@ -100,4 +100,25 @@ class SocialitesBaseEventHandler extends Object {
 		return $defaults;
 	}
 
+	protected function _findLocalUser($oauthUser) {
+		if (empty($oauthUser->uid)) {
+			return array();
+		}
+		$field = $this->_Socialite->escapeField($this->_providerId . '_uid');
+		return $this->_Socialite->find('first', array(
+			'recursive' => -1,
+			'contain' => 'User',
+			'conditions' => array(
+				$field => $oauthUser->uid,
+			),
+		));
+	}
+
+	protected function _findUsersByEmail($oauthUser) {
+		if (empty($oauthUser->email)) {
+			return array();
+		}
+		return $this->_Socialite->User->findByEmail($oauthUser->email);
+	}
+
 }

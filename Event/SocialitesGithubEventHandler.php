@@ -63,10 +63,6 @@ class SocialitesGithubEventHandler extends SocialitesBaseEventHandler
 		return compact('token', 'oauthUser', 'user');
 	}
 
-	protected function _findLocalUser($oauthUser) {
-		return $this->_Socialite->findByGithubUid($oauthUser->uid);
-	}
-
 	protected function _findUsersByEmail($oauthUserEmails) {
 		$emails = array();
 		foreach ($oauthUserEmails as $userEmail) {

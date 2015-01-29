@@ -52,12 +52,4 @@ class SocialitesGoogleEventHandler extends SocialitesBaseEventHandler
 		return compact('token', 'oauthUser', 'user');
 	}
 
-	protected function _findLocalUser($oauthUser) {
-		return $this->_Socialite->findByGoogleUid($oauthUser->uid);
-	}
-
-	protected function _findUsersByEmail($oauthUser) {
-		return $this->_Socialite->User->findByEmail($oauthUser->email);
-	}
-
 }
