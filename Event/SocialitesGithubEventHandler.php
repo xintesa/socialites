@@ -51,12 +51,7 @@ class SocialitesGithubEventHandler extends SocialitesBaseEventHandler
 		$user = $this->_findLocalUser($oauthUser);
 
 		if (empty($user)) {
-			$provider = 'github';
-			$userDefaults = $this->_getDefaults($oauthUser);
-			$usersByEmail = $this->_findUsersByEmail($oauthUserEmails);
-			$controller->Session->write('Socialites.newUser', compact(
-				'provider', 'token', 'oauthUser', 'userDefaults', 'usersByEmail'
-			));
+			$this->_prepareUser($event, $oauthUser);
 			return $controller->redirect($this->_addUserUrl);
 		}
 

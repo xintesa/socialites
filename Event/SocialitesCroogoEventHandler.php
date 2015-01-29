@@ -49,12 +49,7 @@ class SocialitesCroogoEventHandler extends SocialitesBaseEventHandler
 		$user = $this->_findLocalUser($oauthUser);
 
 		if (empty($user)) {
-			$provider = $this->_providerId;
-			$userDefaults = $this->_getDefaults($oauthUser);
-			$usersByEmail = $this->_findUsersByEmail($oauthUser);
-			$controller->Session->write('Socialites.newUser', compact(
-				'provider', 'token', 'oauthUser', 'userDefaults', 'usersByEmail'
-			));
+			$this->_prepareUser($event, $oauthUser);
 			return $controller->redirect($this->_addUserUrl);
 		}
 

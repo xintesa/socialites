@@ -121,4 +121,14 @@ class SocialitesBaseEventHandler extends Object {
 		return $this->_Socialite->User->findByEmail($oauthUser->email);
 	}
 
+	protected function _prepareUser($event, $oauthUser) {
+		$provider = $this->_providerId;
+		$userDefaults = $this->_getDefaults($oauthUser);
+		$usersByEmail = $this->_findUsersByEmail($oauthUser);
+		$controller->Session->write('Socialites.newUser', compact(
+			'provider', 'token', 'oauthUser', 'userDefaults', 'usersByEmail'
+		));
+		Croogo::dispatchEvent('Socialites.newUser', $controller);
+	}
+
 }

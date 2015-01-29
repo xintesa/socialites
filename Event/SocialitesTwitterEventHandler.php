@@ -78,12 +78,7 @@ class SocialitesTwitterEventHandler extends SocialitesBaseEventHandler
 		$user = $this->_findLocalUser($oauthUser);
 
 		if (empty($user)) {
-			$provider = 'twitter';
-			$userDefaults = $this->_getDefaults($oauthUser);
-			$usersByEmail = array();
-			$controller->Session->write('Socialites.newUser', compact(
-				'provider', 'token', 'oauthUser', 'userDefaults', 'usersByEmail'
-			));
+			$this->_prepareUser($event, $oauthUser);
 			return $controller->redirect($this->_addUserUrl);
 		}
 
