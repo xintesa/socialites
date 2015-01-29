@@ -122,6 +122,13 @@ class SocialitesBaseEventHandler extends Object {
 	}
 
 	protected function _prepareUser($event, $oauthUser) {
+		$controller = $event->subject;
+		$user = $controller->Auth->user();
+		if (isset($user['id'])) {
+			$controller->Session->write('Socialites.originalUser', array(
+				'User' => $user,
+			));
+		}
 		$provider = $this->_providerId;
 		$userDefaults = $this->_getDefaults($oauthUser);
 		$usersByEmail = $this->_findUsersByEmail($oauthUser);
