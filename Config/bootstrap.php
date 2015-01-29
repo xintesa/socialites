@@ -6,56 +6,19 @@ if (!defined('CROOGO_OAUTH_SERVER_URL') && isset($_SERVER['HTTP_HOST'])) {
 }
 
 $path = CakePlugin::path('Socialites');
-require $path . 'Vendor/opauth/opauth/autoload.php';
-
-$tmhOAuthPath = $path . 'Vendor/themattharris/tmhoauth/tmhOAuth.php';
-if (file_exists($tmhOAuthPath)) {
-	require $tmhOAuthPath;
-	Opauth\AutoLoader::register('Opauth\\Strategy', $path . 'Vendor/opauth/twitter/Opauth/Strategy');
+if (file_exists($path . 'Vendor' . DS . 'autoload.php')) {
+	require $path . 'Vendor' . DS . 'autoload.php';
 }
-
-$facebookPath = $path . 'Vendor/opauth/facebook/Opauth/Strategy';
-if (file_exists($facebookPath)) {
-	Opauth\AutoLoader::register('Opauth\\Strategy', $facebookPath);
-}
-
-$googlePath = $path . 'Vendor/opauth/google/Opauth/Strategy';
-if (file_exists($googlePath)) {
-	Opauth\AutoLoader::register('Opauth\\Strategy', $googlePath);
-}
-
-$githubPath = $path . 'Vendor/opauth/github/Opauth/Strategy';
-if (file_exists($githubPath)) {
-	Opauth\AutoLoader::register('Opauth\\Strategy', $githubPath);
-}
-
-Opauth\AutoLoader::register('Opauth\\Strategy', $path . 'Opauth/Strategy');
 
 Croogo::hookModelProperty('User', 'hasOne', array(
 	'Socialite' => array(
 		'className' => 'Socialites.Socialite',
+		'dependent' => true,
 	),
 ));
 
-Configure::write('Opauth.Strategy', array(
-	'Twitter' => array(
-		'key' => '',
-		'secret' => '',
-	),
-	'Facebook' => array(
-		'app_id' => '',
-		'app_secret' => '',
-	),
-	'Google' => array(
-		'client_id' => '',
-		'client_secret' => '',
-	),
-	'GitHub' => array(
-		'client_id' => '',
-		'client_secret' => '',
-	),
-	'Croogo' => array(
-		'client_id' => '',
-		'secret' => '',
-	),
-));
+if (file_exists($path . 'Config' . DS . 'providers.php')) {
+	Configure::load('Socialites.providers');
+} else {
+	CakeLog::critical('Socialites provider config not found');
+}

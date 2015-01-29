@@ -8,52 +8,20 @@ echo $this->Form->create('User', array(
 	),
 ));
 
-if (isset($this->data['User']['id'])):
-	echo $this->Form->input('id');
+if ($this->Session->check('Socialites.originalUser')):
+	$buttonTitle = __d('socialites', 'Link Account');
+	echo $this->element('Socialites.link_user');
+else:
+	$buttonTitle = __d('socialites', 'Create Account');
+	echo $this->element('Socialites.new_user');
 endif;
 
-echo $this->Form->input('role_id', array('type' => 'hidden', 'default' => 2));
+echo $this->Socialites->providerUid();
 
-echo $this->Form->input('username', array(
-	'label' => __d('socialites', 'Username'),
-	'default' => $defaults['username'],
-));
+echo $this->Form->submit(__d('socialite', $buttonTitle));
 
-echo $this->Form->input('name', array(
-	'label' => __d('socialites', 'Name'),
-	'default' => $defaults['name'],
-));
-
-echo $this->Form->input('website', array(
-	'label' => __d('socialites', 'Website'),
-	'default' => $defaults['website'],
-));
-
-echo $this->Form->input('bio', array(
-	'label' => __d('socialites', 'Bio'),
-	'default' => $defaults['bio'],
-));
-
-if ($strategy == 'Twitter'):
-	echo $this->Form->input('Socialite.twitter_uid', array('type' => 'hidden'));
+if (!empty($this->Form->validationErrors)):
+	echo $this->Html->link(__d('socialites', 'Cancel'), array('plugin' => 'users', 'controller' => 'users', 'action' => 'login'));
 endif;
-
-if ($strategy == 'Facebook'):
-	echo $this->Form->input('Socialite.fb_uid', array('type' => 'hidden'));
-endif;
-
-if ($strategy == 'GitHub'):
-	echo $this->Form->input('Socialite.github_uid', array('type' => 'hidden'));
-endif;
-
-if ($strategy == 'Google'):
-	echo $this->Form->input('Socialite.google_uid', array('type' => 'hidden'));
-endif;
-
-if ($strategy == 'Croogo'):
-	echo $this->Form->input('Socialite.user_id', array('type' => 'hidden'));
-endif;
-
-echo $this->Form->submit(__d('socialite', 'Create User'));
 
 echo $this->Form->end();
