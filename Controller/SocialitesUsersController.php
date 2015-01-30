@@ -34,8 +34,10 @@ class SocialitesUsersController extends SocialitesAppController {
 			$message = __d('socialites', 'Your %s account has been linked', ucfirst($this->Session->read('Socialites.newUser.provider')));
 		}
 		if ($this->request->is('post') || $this->request->is('put')) {
+			Croogo::dispatchEvent('Controller.Users.beforeRegistration', $this);
 			$saved = $this->User->saveAll($this->request->data);
 			if ($saved) {
+				Croogo::dispatchEvent('Controller.Users.registrationSuccessful', $this);
 				$user = $this->User->findById($this->User->id);
 				unset($user['User']['password']);
 				if ($this->Auth->login($user['User'])) {
@@ -47,6 +49,7 @@ class SocialitesUsersController extends SocialitesAppController {
 					return $this->redirect($homeUrl);
 				}
 			} else {
+				Croogo::dispatchEvent('Controller.Users.registrationFailure', $this);
 				$this->log($this->User->validationErrors);
 				$this->Session->setFlash(__d('socialites', 'There was a problem creating your account'), 'flash');
 			}
