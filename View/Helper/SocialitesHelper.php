@@ -22,13 +22,19 @@ class SocialitesHelper extends AppHelper {
 /**
  * Helper to create login links for supported providers
  */
-	public function login($title, $options = array()) {
+	public function login($title = null, $options = array()) {
 		$options = Hash::merge(array(
 			'provider' => null,
 		), $options);
 
 		$provider = $options['provider'];
 		unset($options['provider']);
+
+		$title = $title ? $title: ucfirst($provider);
+
+		if (!Configure::read('Socialites.Providers.' . $provider)) {
+			return null;
+		}
 
 		switch ($provider) {
 			case 'twitter':
@@ -59,6 +65,10 @@ class SocialitesHelper extends AppHelper {
 		unset($options['provider']);
 
 		$title = $title ? $title: ucfirst($provider);
+
+		if (!Configure::read('Socialites.Providers.' . $provider)) {
+			return null;
+		}
 
 		$url = array(
 			'plugin' => 'socialites',

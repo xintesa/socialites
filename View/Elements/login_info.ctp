@@ -5,18 +5,20 @@ endif;
 
 ?>
 <p>
-	<?= $this->Socialites->login('Github', array('provider' => 'github')) ?>
-	<?= $this->Socialites->login('Facebook', array('provider' => 'facebook')) ?>
-	<?= $this->Socialites->login('Google', array('provider' => 'google')) ?>
-	<?= $this->Socialites->login('Twitter', array('provider' => 'twitter')) ?>
+	<?= $this->Socialites->login(null, array('provider' => 'github')) ?>
+	<?= $this->Socialites->login(null, array('provider' => 'facebook')) ?>
+	<?= $this->Socialites->login(null, array('provider' => 'google')) ?>
+	<?= $this->Socialites->login(null, array('provider' => 'twitter')) ?>
 </p>
 
+<?php if (false): ?>
 <p>
 	<?= $this->Socialites->linkTo(null, array('provider' => 'github')) ?>
 	<?= $this->Socialites->linkTo(null, array('provider' => 'facebook')) ?>
 	<?= $this->Socialites->linkTo(null, array('provider' => 'google')) ?>
 	<?= $this->Socialites->linkTo(null, array('provider' => 'twitter')) ?>
 </p>
+<?php endif; ?>
 
 <p>
 <?php
