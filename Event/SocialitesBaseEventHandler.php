@@ -74,12 +74,11 @@ class SocialitesBaseEventHandler extends Object {
 		$fieldName = $this->_providerId . '_uid';
 		$originalUser = $this->_getExistingUser();
 		if ($originalUser) {
-			$defaults = array(
-				'User' => $originalUser,
+			$defaults = Hash::merge($originalUser, array(
 				'Socialite' => array(
 					$fieldName => $oauthUser->uid,
 				),
-			);
+			));
 		} else {
 			$website = $oauthUser->urls;
 			$website = is_array($website) ? current($website) : null;
@@ -138,11 +137,6 @@ class SocialitesBaseEventHandler extends Object {
 		), $options);
 		extract($options);
 		$user = $controller->Auth->user();
-		if (isset($user['id'])) {
-			$controller->Session->write('Socialites.originalUser', array(
-				'User' => $user,
-			));
-		}
 		$provider = $this->_providerId;
 		$userDefaults = $this->_getDefaults($oauthUser);
 		$usersByEmail = $this->_findUsersByEmail($oauthUser);

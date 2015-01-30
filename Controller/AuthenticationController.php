@@ -12,6 +12,11 @@ class AuthenticationController extends AppController {
 	public function callback() {
 		$this->autoRender = false;
 
+		$originalUser = $this->Auth->user();
+		if ($originalUser) {
+			$this->Session->write('Socialites.originalUser', $originalUser);
+		}
+
 		$eventName = 'Socialites.oauthCallback';
 		$event = Croogo::dispatchEvent($eventName, $this);
 		if (empty($event->result)) {
