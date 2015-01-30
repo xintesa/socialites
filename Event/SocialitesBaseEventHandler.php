@@ -121,8 +121,22 @@ class SocialitesBaseEventHandler extends Object {
 		return $this->_Socialite->User->findByEmail($oauthUser->email);
 	}
 
-	protected function _prepareUser($event, $oauthUser) {
-		$controller = $event->subject;
+/**
+ * Get relevant user data for storing in Socialites.newUser session data
+ *
+ * $options must contain the following variableS:
+ *
+ * - event
+ * - token
+ * - oauthUser
+ */
+	protected function _prepareUser($options) {
+		$options = Hash::merge(array(
+			'controller' => null,
+			'token' => null,
+			'oauthUser' => null,
+		), $options);
+		extract($options);
 		$user = $controller->Auth->user();
 		if (isset($user['id'])) {
 			$controller->Session->write('Socialites.originalUser', array(

@@ -37,9 +37,9 @@ class SocialitesGoogleEventHandler extends SocialitesBaseEventHandler
 		$oauthUser = $oauthClient->getUserDetails($token);
 
 		$user = $this->_findLocalUser($oauthUser);
+		$this->_prepareUser(compact('controller', 'token', 'oauthUser'));
 
 		if (empty($user)) {
-			$this->_prepareUser($event, $oauthUser);
 			return $controller->redirect($this->_addUserUrl);
 		}
 

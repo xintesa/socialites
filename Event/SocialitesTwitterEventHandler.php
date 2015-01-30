@@ -72,13 +72,16 @@ class SocialitesTwitterEventHandler extends SocialitesBaseEventHandler
 		$tokenCredentials = $server->getTokenCredentials(
 			$tempCredentials, $oauthToken, $oauthVerifier
 		);
+		$token = new StdClass();
+		$token->identifier = $tokenCredentials->getIdentifier();
+		$token->secret = $tokenCredentials->getSecret();
 
 		$oauthUser = $server->getUserDetails($tokenCredentials);
 
 		$user = $this->_findLocalUser($oauthUser);
+		$this->_prepareUser(compact('controller', 'token', 'oauthUser'));
 
 		if (empty($user)) {
-			$this->_prepareUser($event, $oauthUser);
 			return $controller->redirect($this->_addUserUrl);
 		}
 
