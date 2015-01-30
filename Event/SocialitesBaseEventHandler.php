@@ -125,9 +125,9 @@ class SocialitesBaseEventHandler extends Object {
  *
  * $options must contain the following variableS:
  *
- * - event
- * - token
- * - oauthUser
+ * - event The current event
+ * - token User oauth token
+ * - oauthUser User data returned from 3rd API
  */
 	protected function _prepareUser($options) {
 		$options = Hash::merge(array(
@@ -136,12 +136,12 @@ class SocialitesBaseEventHandler extends Object {
 			'oauthUser' => null,
 		), $options);
 		extract($options);
-		$user = $controller->Auth->user();
 		$provider = $this->_providerId;
+		$user = $this->_findLocalUser($oauthUser);
 		$userDefaults = $this->_getDefaults($oauthUser);
 		$usersByEmail = $this->_findUsersByEmail($oauthUser);
 		$controller->Session->write('Socialites.newUser', compact(
-			'provider', 'token', 'oauthUser', 'userDefaults', 'usersByEmail'
+			'provider', 'token', 'oauthUser', 'userDefaults', 'usersByEmail', 'user'
 		));
 		Croogo::dispatchEvent('Socialites.newUser', $controller);
 	}
