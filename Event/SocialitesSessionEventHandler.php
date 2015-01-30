@@ -15,6 +15,12 @@ class SocialitesSessionEventHandler implements CakeEventListener {
 			'Controller.Users.beforeRegistration' => array(
 				'callable' => 'onUsersBeforeRegistration',
 			),
+			'Controller.Users.registrationSuccessful' => array(
+				'callable' => 'onUsersOAuthLogin',
+			),
+			'Controller.Users.loginSuccessful' => array(
+				'callable' => 'onUsersOAuthLogin',
+			),
 		);
 	}
 
@@ -32,6 +38,29 @@ class SocialitesSessionEventHandler implements CakeEventListener {
 		if (empty($event->subject->request->data['User'])) {
 			$event->subject->request->data['User']['status'] = 1;
 		}
+	}
+
+/**
+ * Save tokens in session
+ */
+	public function onUsersOAuthLogin($event) {
+		$controller = $event->subject;
+		$Session = $controller->Session;
+		if (!$Session || !$Session->check('Socialites.newUser.provider')) {
+			return;
+		}
+
+		$provider = $Session->read('Socialites.newUser.provider');
+		$token = $Session->read('Socialites.newUser.token');
+		if ($provider && $token) {
+			$oauthUser = $Session->read('Socialites.newUser.oauthUser');
+			$Session->write('Socialites.identities.' . $provider, array(
+				'uid' => $oauthUser->uid,
+				'token' => (array)$token,
+			));
+		}
+		$Session->delete('Socialites.newUser');
+		$Session->delete('Socialites.originalUser');
 	}
 
 }
