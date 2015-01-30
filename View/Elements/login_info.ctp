@@ -30,3 +30,14 @@ else:
 endif;
 ?>
 <p>
+<?php
+
+$identities = (array)$this->Session->read('Socialites.identities');
+$li = [];
+foreach ($identities as $provider => $identity):
+	$li[] = sprintf('<li>%s: %s (%s: %s)</li>',
+		ucfirst($provider), $identity['uid'],
+		key($identity['token']), $this->Text->truncate(current($identity['token']), 30)
+	);
+endforeach;
+echo $this->Html->tag('ul', implode($li));
