@@ -74,11 +74,12 @@ class SocialitesBaseEventHandler extends Object {
 		$fieldName = $this->_providerId . '_uid';
 		$originalUser = $this->_getExistingUser();
 		if ($originalUser) {
-			$defaults = Hash::merge($originalUser, array(
+			$defaults = array(
+				'User' => array_filter($originalUser, 'is_scalar'),
 				'Socialite' => array(
 					$fieldName => $oauthUser->uid,
 				),
-			));
+			);
 		} else {
 			$website = $oauthUser->urls;
 			$website = is_array($website) ? current($website) : null;
