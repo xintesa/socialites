@@ -12,6 +12,9 @@ class SocialitesSessionEventHandler implements CakeEventListener {
 			'Controller.Users.adminLogoutSuccessful' => array(
 				'callable' => 'onUsersLogout',
 			),
+			'Controller.Users.beforeLogin' => array(
+				'callable' => 'onUsersBeforeLogin',
+			),
 			'Controller.Users.beforeRegistration' => array(
 				'callable' => 'onUsersBeforeRegistration',
 			),
@@ -29,6 +32,21 @@ class SocialitesSessionEventHandler implements CakeEventListener {
  */
 	public function onUsersLogout($event) {
 		$event->subject->Session->delete('Socialites');
+	}
+
+/**
+ * Pre-login checks
+ */
+	public function onUsersBeforeLogin($event) {
+		$controller = $event->subject;
+		$Session = $controller->Session;
+		$originalUserId = $Session->read('Socialites.originalUser.id');
+		$newUserId = $Session->read('Socialites.newUser.user.User.id');
+		if ($originalUserId && $originalUserId <> $newUserId) {
+			$mappingError = __d('socialites', 'You are currently logged in as a different user in %s. Please logout first.', Configure::read('Site.title'));
+			$Session->setFlash($mappingError, 'flash', array('class' => 'error'));
+			return $controller->redirect($controller->referer(null, true));
+		}
 	}
 
 /**
