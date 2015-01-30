@@ -22,29 +22,4 @@ class SocialitesFacebookEventHandler extends SocialitesBaseEventHandler
 		);
 	}
 
-	public function onCallback($event) {
-		if (!$this->_isValidEvent($event, 'facebook')) {
-			return;
-		}
-
-		$config = $this->getConfig();
-		$oauthClient = $this->getProvider();
-		$controller = $event->subject;
-
-		$token = $oauthClient->getAccessToken('authorization_code', array(
-			'code' => $controller->request->query['code'],
-		));
-
-		$oauthUser = $oauthClient->getUserDetails($token);
-
-		$user = $this->_findLocalUser($oauthUser);
-		$this->_prepareUser(compact('controller', 'token', 'oauthUser'));
-
-		if (empty($user)) {
-			return $event->subject->redirect($this->_addUserUrl);
-		}
-
-		return compact('token', 'oauthUser', 'user');
-	}
-
 }

@@ -81,11 +81,7 @@ class SocialitesTwitterEventHandler extends SocialitesBaseEventHandler
 		$user = $this->_findLocalUser($oauthUser);
 		$this->_prepareUser(compact('controller', 'token', 'oauthUser'));
 
-		if (empty($user)) {
-			return $controller->redirect($this->_addUserUrl);
-		}
-
-		return compact('token', 'oauthUser', 'user');
+		$this->_loginUser($controller);
 	}
 
 	public function onAuthorize($event) {

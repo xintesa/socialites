@@ -144,7 +144,46 @@ class SocialitesBaseEventHandler extends Object {
 		$controller->Session->write('Socialites.newUser', compact(
 			'provider', 'token', 'oauthUser', 'userDefaults', 'usersByEmail', 'user'
 		));
-		Croogo::dispatchEvent('Socialites.newUser', $controller);
+		Croogo::dispatchEvent('Socialites.newUser');
+
+		if (empty($user)) {
+			return $controller->redirect($this->_addUserUrl);
+		}
 	}
 
+	protected function _loginUser($controller) {
+		Croogo::dispatchEvent('Controller.Users.beforeLogin', $controller);
+
+		$user = $controller->Session->read('Socialites.newUser.user');
+		if (!empty($user['User'])) {
+			$user = $user['User'];
+		}
+		if (!empty($user) && $controller->Auth->login($user)) {
+			Croogo::dispatchEvent('Controller.Users.loginSuccessful', $controller);
+			return $controller->redirect($controller->Auth->redirectUrl());
+		} else {
+			Croogo::dispatchEvent('Controller.Users.loginFailure', $controller);
+			return $controller->redirect($controller->Auth->loginAction);
+		}
+
+	}
+
+	public function onCallback($event) {
+		if (!$this->_isValidEvent($event)) {
+			return;
+		}
+
+		$oauthClient = $this->getProvider();
+		$controller = $event->subject;
+
+		$token = $oauthClient->getAccessToken('authorization_code', array(
+			'code' => $controller->request->query('code'),
+		));
+
+		$oauthUser = $oauthClient->getUserDetails($token);
+
+		$this->_prepareUser(compact('controller', 'token', 'oauthUser'));
+
+		$this->_loginUser($controller);
+	}
 }

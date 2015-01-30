@@ -22,28 +22,4 @@ class SocialitesGoogleEventHandler extends SocialitesBaseEventHandler
 		);
 	}
 
-	public function onCallback($event) {
-		if (!$this->_isValidEvent($event)) {
-			return;
-		}
-
-		$oauthClient = $this->getProvider();
-		$controller = $event->subject;
-
-		$token = $oauthClient->getAccessToken('authorization_code', array(
-			'code' => $controller->request->query['code'],
-		));
-
-		$oauthUser = $oauthClient->getUserDetails($token);
-
-		$user = $this->_findLocalUser($oauthUser);
-		$this->_prepareUser(compact('controller', 'token', 'oauthUser'));
-
-		if (empty($user)) {
-			return $controller->redirect($this->_addUserUrl);
-		}
-
-		return compact('token', 'oauthUser', 'user');
-	}
-
 }

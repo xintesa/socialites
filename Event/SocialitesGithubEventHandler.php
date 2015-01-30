@@ -48,15 +48,11 @@ class SocialitesGithubEventHandler extends SocialitesBaseEventHandler
 			return;
 		}
 
-		$user = $this->_findLocalUser($oauthUser);
 		$this->_prepareUser(compact('controller', 'token', 'oauthUser'));
 
-		if (empty($user)) {
-			return $controller->redirect($this->_addUserUrl);
-		}
-
-		return compact('token', 'oauthUser', 'user');
+		$this->_loginUser($controller);
 	}
+
 
 	protected function _findUsersByEmail($oauthUserEmails) {
 		$emails = array();
